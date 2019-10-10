@@ -16,6 +16,7 @@ public class DSSwitch : MonoBehaviour
     Image backgroundImage;                  //스위치 배경 이미지
     RectTransform handleRectTransform;     // 스위치 핸들 RectTransform
 
+    Coroutine moveHandleCoroutine;       //핸들이동 코루틴
     void Start()
     {
         //핸들초기화
@@ -41,7 +42,12 @@ public class DSSwitch : MonoBehaviour
         float ratio = Mathf.Abs( distance.x) / totalHandleMoveLength;
         float duration = moveDuration * ratio;
         //여기서 1번
-        StartCoroutine(moveHandle(fromPosition,toPosition,duration));
+        if(moveHandleCoroutine != null)
+        {
+            StopCoroutine(moveHandleCoroutine);
+            moveHandleCoroutine = null;
+        }
+        moveHandleCoroutine = StartCoroutine(moveHandle(fromPosition,toPosition,duration));
     }
     /// <summary>
     /// 핸들을 이동하는 함수
